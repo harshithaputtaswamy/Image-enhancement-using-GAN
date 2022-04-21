@@ -38,10 +38,10 @@ def upload(request):
         input_file = fs.save(myfile.name, myfile)# file in storing in media folder
 
         send_to_model(input_file) 
-    return HttpResponse("Hello, world. You have uploaded.")
-        # uploaded_file_url = fs.url(filename)
-        # return render(request, 'Image_Enhancement/index.html', {
-        #     'uploaded_file_url': uploaded_file_url
-        # })
+    # return HttpResponse("Hello, world. You have uploaded.")
+        uploaded_file_url = fs.url(input_file)
+        return render(request, 'Image_Enhancement/index.html', {
+            'uploaded_file_url': uploaded_file_url
+        })
     
     
