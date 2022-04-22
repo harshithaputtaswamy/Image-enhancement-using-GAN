@@ -40,10 +40,12 @@ def upload(request):
         fs = FileSystemStorage() 
         input_file = fs.save(myfile.name, myfile)# file in storing in media folder
 
-        send_to_model() 
+        output_file_url = os.path.join(settings.OUTPUT_URL, 'ImprovedImage.jpg')
         uploaded_file_url = fs.url(input_file)
+        send_to_model() 
         return render(request, 'Image_Enhancement/index.html', {
-            'uploaded_file_url': uploaded_file_url
+            'uploaded_file_url': uploaded_file_url,
+            'output': output_file_url
         })
     
     
