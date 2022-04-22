@@ -1,13 +1,254 @@
 {% load static %}
+<!--css code-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
+  html,
+  body {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    text-align: center;
+  }
+
+  .container {
+    height: 350px;
+    width: 470px;
+    position: relative;
+  }
+
+  .container .wrapper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px dashed #c2cdda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .wrapper.active {
+    border: none;
+  }
+
+  .wrapper .image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    float: left;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .wrapper .icon {
+    font-size: 100px;
+    color: #9658fe;
+  }
+
+  .wrapper .text {
+    font-size: 20px;
+    font-weight: 500;
+    color: #5B5B7B;
+  }
+
+  .wrapper #cancel-btn i {
+    position: absolute;
+    font-size: 20px;
+    right: 15px;
+    top: 15px;
+    color: #0c041b;
+    cursor: pointer;
+    display: none;
+  }
+
+  .wrapper.active:hover #cancel-btn i {
+    display: block;
+  }
+
+  .wrapper #cancel-btn i:hover {
+    color: #e74c3c;
+  }
+
+  .wrapper .file-name {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 18px;
+    color: #fff;
+    display: none;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+  }
+
+  .wrapper.active:hover .file-name {
+    display: block;
+  }
+
+  .container #custom-btn {
+    margin-top: 30px;
+    display: block;
+    padding: 15px;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3f6c90 0%, #264872 100%);
+  }
+
+  body {
+    background-attachment: fixed;
+    height: 100%;
+    width: 100%;
+    margin-top: -10px;
+    display: unset;
+    background-color: rgb(64 110 147);
+  }
+
+  .div1 {
+    background-color: rgb(128 162 201 / 80%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    margin: 20px 20px 20px 20px;
+    height: 60%;
+    padding: 50px;
+  }
+
+  .sub-div {
+    height: 80%;
+    width: 40%;
+    background-color: rgb(106, 108, 108);
+    border-radius: 10px;
+    float: left;
+  }
+</style>
+<!--html code-->
 {% block content %}
-  <form method="post" action='/upload/'enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="myfile">
-    <button type="submit">Upload</button>
-  </form>
 
-  {% if uploaded_file_url %}
-    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-  {% endif %}
+<body>
+  <div style="text-align: center;padding: 10px;background-color: rgb(38 72 114);">
+    <h1 style="color: aliceblue;">UNDERWATER IMAGE ENHANCEMENT</h1>
+  </div>
+  <div class="div1">
+    <!--input image-->
+    <div class="container" style="float: left;">
+      <div class="wrapper">
+        <div class="image" id="display_img">
+          <img src="" style="display: none" onload="this.style.display=''" onerror="this.style.display='none'">
+        </div>
+        <div class="content">
+          <div class="icon">
+            <i class="fas fa-cloud-upload-alt"></i>
+          </div>
+          <div class="text">
+            No image chosen, yet!
+          </div>
+        </div>
+        <div id="cancel-btn">
+          <i class="fas fa-times"></i>
+        </div>
+        <div class="file-name">
+          File name here
+        </div>
+      </div>
+
+      <button onclick="defaultBtnActive()" id="custom-btn" style="float: left;">Select an image</button>
+      <form method="post" action='/upload/' enctype="multipart/form-data">
+        {% csrf_token %}
+        <input id="default-btn" type="file" name="myfile" id="myfile" hidden>
+        <button type="submit" id="custom-btn" style="float: right;">Upload Image</button>
+      </form>
+
+      {% if uploaded_file_url %}
+
+      <!-- <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p> -->
+      <script>
+        alert("Uploaded successfully!!")
+        img = document.querySelector("img");
+        var myHTML = "<p>{{ uploaded_file_url }}</p>";
+        var strippedHtml = myHTML.replace(/<[^>]+>/g, '');
+        img.src = "../../.." + strippedHtml
+      </script>
+      <p>Image has been Uploaded</p>
+      {% endif %}
+
+    </div>
+
+    <!--output image-->
+    <div class="container" style="float: right;">
+      <div class="wrapper" style="border:none">
+        <div class="image">
+          <!--this displays output image-->
+          <img src=" " style="display: none" onload="this.style.display=''" onerror="this.style.display='none'">
+        </div>
+        <div>
+          Enhanced Image will be displayed here
+        </div>
+      </div>
+      <button class="process_btn" id="custom-btn" style="margin-inline: auto;">Image Enhancement</button>
+    </div>
+    <script>
+      const wrapper = document.querySelector(".wrapper");
+      const fileName = document.querySelector(".file-name");
+      const defaultBtn = document.querySelector("#default-btn");
+      const customBtn = document.querySelector("#custom-btn");
+      const cancelBtn = document.querySelector("#cancel-btn i");
+      const img = document.querySelector("img");
+      let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+      //process_btn function is action performed when the image enhancement btn is clicked
+      // function process_btn(){
+      //   process_btn.click();
+      // }
+      // process_btn.addEventListener("click",function(){
+
+      // });
+      function uploadstatus() {
+        img.src = fileName
+        console.log(fileName)
+      }
+      function defaultBtnActive() {
+        defaultBtn.click();
+      }
+      defaultBtn.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function () {
+            const result = reader.result;
+            img.src = result;
+            wrapper.classList.add("active");
+          }
+
+          cancelBtn.addEventListener("click", function () {
+            img.src = "";
+            wrapper.classList.remove("active");
+          })
+          reader.readAsDataURL(file);
+          console.log("Uploaded successfully!!" + fileName)
+        }
+        if (this.value) {
+          let valueStore = this.value.match(regExp);
+          fileName.textContent = valueStore;
+        }
+
+      });
+    </script>
+  </div>
+</body>
 {% endblock %}
