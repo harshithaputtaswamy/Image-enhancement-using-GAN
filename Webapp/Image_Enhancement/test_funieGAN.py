@@ -16,14 +16,14 @@ from django.conf import settings
 ## local libs
 from Image_Enhancement.utils.data_utils import getPaths, read_and_resize, preprocess, deprocess
 
-def test_model():
+def test_model(filename):
 
-    output_dir = "./output/"
+    output_dir = os.path.join(settings.MEDIA_ROOT, "output/")
     if not exists(output_dir): os.makedirs(output_dir)
 
     ## test funie-gan
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-    img_file = os.listdir(settings.MEDIA_ROOT)[0]
+    img_file = os.path.join(settings.MEDIA_ROOT, 'input/'+filename)
     print(img_file)
     img_path = os.path.join(settings.MEDIA_ROOT, img_file)
     model_h5 = join(ROOT_DIR, 'saved_model/model_15320_.h5')
@@ -53,9 +53,8 @@ def test_model():
     gen_img = deprocess(gen)[0]
     tot = time.time()-s
     times.append(tot)
-    img_file_type = img_file.split('.')[1]
     out_img = gen_img
-    Image.fromarray(out_img).save(join(output_dir, 'ImprovedImage.'+img_file_type))
+    Image.fromarray(out_img).save(join(output_dir, filename))
 
     Ttime, Mtime = np.sum(times[1:]), np.mean(times[1:]) 
     print ("Time taken: {0} sec at {1} fps".format(Ttime, 1./Mtime))
