@@ -1,4 +1,6 @@
 # from django.shortcuts import render
+from pyexpat.errors import messages
+from ssl import AlertDescription
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .forms import UploadFileForm
@@ -6,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 import os
 from django.conf import settings
 from . import test_funieGAN
+from django.contrib import messages
 
 def index(request):
     return render(request, 'Image_Enhancement/index.html')
@@ -19,7 +22,11 @@ def upload(request):
     if request.method == 'POST':
         if len(request.FILES) == 0:
             print("not uploaded")
-            return HttpResponse("Hello, world. You have not chosen any file.")#TODO - have to change 
+            # return HttpResponse("You have not chosen any file.")
+            messages.info(request, "Info! Choose file to perform enhancement")
+            return render(request, 'Image_Enhancement/index.html', {
+            
+        })
 
         myfile=request.FILES['myfile']
 
