@@ -4,7 +4,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
 <style>
-  .alert-info{color:#31708f;font-size: 20px;background-color:#d9edf7;border-color:#bce8f1}.alert-info hr{border-top-color:#a6e1ec}.alert-info .alert-link{color:#245269}
+  .alert-info {
+    color: #31708f;
+    font-size: 20px;
+    background-color: #d9edf7;
+    border-color: #bce8f1
+  }
+
+  .alert-info hr {
+    border-top-color: #a6e1ec
+  }
+
+  .alert-info .alert-link {
+    color: #245269
+  }
+
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
   html,
@@ -150,13 +164,13 @@
     <h1 style="color: aliceblue;">UNDERWATER IMAGE ENHANCEMENT</h1>
   </div>
   {% if messages %}
-      {% for message in messages %}
-          <div class = "alert alert-info" role="alert">{{message}}</div>
-          <script>
-             alert({message})
-          </script>
-      {% endfor %}
-      {% endif %}
+  {% for message in messages %}
+  <div class="alert alert-info" role="alert">{{message}}</div>
+  <script>
+    alert({ message })
+  </script>
+  {% endfor %}
+  {% endif %}
   <div class="div1">
     <!--input image-->
     <div class="container" style="float: left;">
@@ -206,7 +220,8 @@
       <div class="wrapper" style="border:none">
         <div class="image">
           <!--this displays output image-->
-          <img src="{{output}}" style="display: none" onload="this.style.display=''" onerror="this.style.display='none'">
+          <img src="{{output}}" style="display: none" onload="this.style.display=''"
+            onerror="this.style.display='none'">
         </div>
         <div>
           <h3>Enhanced Image will be displayed here</h3>
@@ -222,13 +237,6 @@
       const cancelBtn = document.querySelector("#cancel-btn i");
       const img = document.querySelector("img");
       let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
-      //process_btn function is action performed when the image enhancement btn is clicked
-      // function process_btn(){
-      //   process_btn.click();
-      // }
-      // process_btn.addEventListener("click",function(){
-
-      // });
       function uploadstatus() {
         img.src = fileName
         console.log(fileName)
@@ -238,7 +246,12 @@
       }
       defaultBtn.addEventListener("change", function () {
         const file = this.files[0];
+        var filename=file.name
+        const extension = filename.split('.').pop()
+        console.log(extension)
+        
         if (file) {
+          if(extension=="jpg"||extension=="png"||extension=="jpeg"||extension=="jfif"){
           const reader = new FileReader();
           reader.onload = function () {
             const result = reader.result;
@@ -251,14 +264,26 @@
             wrapper.classList.remove("active");
           })
           reader.readAsDataURL(file);
+
           console.log("Uploaded successfully!!" + fileName)
         }
+        else{
+         
+          alert("You can select only image files")
+          
+        }
+        }
+        
+        
         if (this.value) {
           let valueStore = this.value.match(regExp);
           fileName.textContent = valueStore;
         }
-
+       
+        
+      
       });
+    
     </script>
   </div>
 </body>
