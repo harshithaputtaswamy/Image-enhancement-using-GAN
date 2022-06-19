@@ -65,7 +65,7 @@
   .wrapper img {
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 
   .wrapper .icon {
@@ -203,9 +203,7 @@
       
       {% if uploaded_file_url %}
 
-      <!-- <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p> -->
       <script>
-        alert("Image is successfully Enhanced!!")
         img = document.querySelector("img");
         var myHTML = "<p>{{ uploaded_file_url }}</p>";
         var strippedHtml = myHTML.replace(/<[^>]+>/g, '');
